@@ -1,14 +1,20 @@
 package Controller
 
 import (
-	"net/http"
-	"github.com/gorilla/mux"
+	"../messageentities"
 )
 
-func main() {
-
-	
+//CreateVisitor call to create a visitor
+func CreateVisitor(messageentities.VisitorsRequest) messageentities.ResponseManager {
+	var resp messageentities.ResponseManager
+	resp.ResponseDescription = "Resquest submitted successfully."
+	resp.ResponseCode = "00"
+	return resp
 }
-func CreateVisitor(w *http.ResponseWriter, req *http.Request) {
 
+//GetVisitorByEmail fetch visitor email address
+func GetVisitorByEmail(VisitorsEmail string) messageentities.VisitorsDetails {
+	var visitorResponse messageentities.VisitorsDetails
+	_ = VisitorsEmail
+	return visitorResponse
 }
