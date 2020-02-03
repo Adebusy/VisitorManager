@@ -18,3 +18,11 @@ func GetVisitorByEmail(VisitorsEmail string) messageentities.VisitorsDetails {
 	_ = VisitorsEmail
 	return visitorResponse
 }
+
+//VisitRequest for visit
+func VisitRequest(visitReq messageentities.VisitorsRequest) messageentities.VisitorsDetails {
+	var visitorResponse messageentities.VisitorsDetails
+	_ = visitReq
+	return visitorResponse
+
+}

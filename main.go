@@ -15,6 +15,7 @@ func main() {
 	router.HandleFunc("/CreateVisitor", CreateVisitor).Methods("POST")
 	router.HandleFunc("/GetVisitorByEmail", GetVisitorByEmail).Methods("GET")
 	router.HandleFunc("/CreateOffice", CreateOffice).Methods("POST")
+	router.HandleFunc("/BookAppointment", Appointment).Methods("POST")
 
 	http.ListenAndServe(":9090", router)
 }
@@ -53,5 +54,14 @@ func CreateOffice(w http.ResponseWriter, req *http.Request) {
 	json.NewDecoder(req.Body).Decode(&officerequest)
 	//validate request body
 	responseVal := Controller.CreateOffice(officerequest)
+	json.NewEncoder(w).Encode(responseVal)
+}
+
+//Appointment with staff
+func Appointment(w http.ResponseWriter, req *http.Request) {
+	var officerequest messageentities.BookAppointment
+	json.NewDecoder(req.Body).Decode(&officerequest)
+	//validate request body
+	responseVal := Controller.BookAppintment(officerequest)
 	json.NewEncoder(w).Encode(responseVal)
 }
