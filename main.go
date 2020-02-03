@@ -24,7 +24,9 @@ func main() {
 func CreateVisitor(w http.ResponseWriter, req *http.Request) {
 	var visitorRequestBody messageentities.VisitorsRequest
 	json.NewDecoder(req.Body).Decode(&visitorRequestBody)
+
 	CreateVisitorsresponse := Controller.CreateVisitor(visitorRequestBody)
+	_ = CreateVisitorsresponse.ResponseCode
 	json.NewEncoder(w).Encode(CreateVisitorsresponse)
 }
 
