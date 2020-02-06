@@ -12,10 +12,20 @@ func CheckOfficeAlreadyExist(officeRequest messageentities.CreateOffice) bool {
 	return resp
 }
 
+//Allmethods interface method
+type Allmethods interface {
+	CreateOffice(officeRequest messageentities.CreateOffice)
+	var period = flag
+	var uio = io.Writer
+
+	
+
+}
+
 //CreateOffice call to create office
 func CreateOffice(officeRequest messageentities.CreateOffice) int32 {
 	var resp int32 = 0
-	db, err := gorm.Open("mysql", "user:password@/dbname?charset=utf8&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", "root@/VisitorDB?charset=utf8&parseTime=True&loc=Local") //root:""
 	defer db.Close()
 	if err == nil {
 		resp = 1
