@@ -7,7 +7,7 @@ import (
 //CreateVisitor call to create a visitor
 func CreateVisitor(messageentities.VisitorsRequest) messageentities.ResponseManager {
 	var resp messageentities.ResponseManager
-	resp.ResponseDescription = "Resquest submitted successfully."
+	resp.ResponseDescription = "Resquest submitted successfully..."
 	resp.ResponseCode = "00"
 	return resp
 }

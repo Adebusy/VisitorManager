@@ -2,7 +2,7 @@ package AppCode
 
 import (
 	"regexp"
-
+"os"
 	"../messageentities"
 )
 
@@ -10,6 +10,14 @@ import (
 func ValidateEmail(email string) bool {
 	re := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 	return re.MatchString(email)
+}
+
+func getVariables(key string) string{
+	os.Setenv(key, "")
+	os.Setenv(key, "tylent")
+	os.Setenv(key, "VisitorDB")
+	os.Setenv(key, "10.0.41.101")
+	return  os.Getenv(key)
 }
 
 //ValidateOfficeRequest used to validate office request

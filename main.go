@@ -11,14 +11,23 @@ import (
 )
 
 func main() {
+
+	//connect first
+	//AppCode.ConnectToDB()
+
 	router := mux.NewRouter()
+	//router.HandleFunc("/", dbconnector).Methods("GET")
 	router.HandleFunc("/CreateVisitor", CreateVisitor).Methods("POST")
 	router.HandleFunc("/GetVisitorByEmail", GetVisitorByEmail).Methods("GET")
 	router.HandleFunc("/CreateOffice", CreateOffice).Methods("POST")
 	router.HandleFunc("/BookAppointment", Appointment).Methods("POST")
 
-	http.ListenAndServe(":9090", router)
+	http.ListenAndServe(":9061", router)
 }
+
+// func dbconnector(w http.ResponseWriter, req *http.Request) {
+// 	AppCode.ConnectToDB()
+// }
 
 // CreateVisitor method to create new Visitor
 func CreateVisitor(w http.ResponseWriter, req *http.Request) {

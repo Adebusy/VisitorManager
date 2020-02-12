@@ -17,4 +17,5 @@ type VisitorsDetails struct {
 	EmailAddress string `json:"EmailAddress,omitempty"`
 	RegNo        string `json:"RegNo,omitempty"`
 	RegDate      string `json:"RegDate,omitempty"`
+	Status       string `json:"Status,omitempty"`
 }

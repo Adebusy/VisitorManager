@@ -1,8 +1,12 @@
 package AppCode
 
 import (
+	"os"
+
 	"../messageentities"
 	"github.com/jinzhu/gorm"
+	// _ "github.com/go-sql-driver/mysql"
+	// "github.com/jinzhu/gorm"
 )
 
 //CheckOfficeAlreadyExist to check of exist
@@ -12,15 +16,28 @@ func CheckOfficeAlreadyExist(officeRequest messageentities.CreateOffice) bool {
 	return resp
 }
 
+//EnvVariable for db
+func EnvVariable(key string) string {
+	os.Setenv("databaseusername", "VisitorDB")
+	return os.Getenv(key)
+}
+
 //Allmethods interface method
 type Allmethods interface {
 	CreateOffice(officeRequest messageentities.CreateOffice)
-	var period = flag
-	var uio = io.Writer
-
-	
+	//var period = flag
+	//var uio = io.Writer
 
 }
+
+//ConnectToDB to mysql database
+// func ConnectToDB() {
+// 	db, err := gorm.Open("mysql", "root:root@tcp(localhost:8443)/VisitorDB?charset=utf8&parseTime=True")
+// 	defer db.Close()
+// 	if err == nil {
+// 		log.Println("i was able to connect !!!")
+// 	}
+// }
 
 //CreateOffice call to create office
 func CreateOffice(officeRequest messageentities.CreateOffice) int32 {
