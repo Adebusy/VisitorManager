@@ -1,6 +1,6 @@
 package AppCode
 
-import "../messageentities"
+import "github.com/Adebusy/VisitorsManager/messageentities"
 
 //CheckIfStaffExist if email exist
 func CheckIfStaffExist(req messageentities.BookAppointment) messageentities.ResponseManager {

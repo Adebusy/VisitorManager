@@ -1,6 +1,8 @@
 package AppCode
 
-import "../messageentities"
+import "github.com/Adebusy/VisitorsManager/messageentities"
+
+//"../messageentities"
 
 //SubmitAppointmentRequest saves request
 func SubmitAppointmentRequest(resquest messageentities.BookAppointment) messageentities.ResponseManager {

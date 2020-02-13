@@ -2,35 +2,41 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
-	"./AppCode"
-	"./Controller"
-	"./messageentities"
+	"github.com/Adebusy/VisitorsManager/AppCode"
+	"github.com/Adebusy/VisitorsManager/Controller"
+	"github.com/Adebusy/VisitorsManager/messageentities"
 	"github.com/gorilla/mux"
 )
 
 func main() {
-
-	//connect first
-	//AppCode.ConnectToDB()
-
 	router := mux.NewRouter()
-	//router.HandleFunc("/", dbconnector).Methods("GET")
+	router.HandleFunc("/", checkIfAmUp).Methods("GET")
 	router.HandleFunc("/CreateVisitor", CreateVisitor).Methods("POST")
 	router.HandleFunc("/GetVisitorByEmail", GetVisitorByEmail).Methods("GET")
 	router.HandleFunc("/CreateOffice", CreateOffice).Methods("POST")
 	router.HandleFunc("/BookAppointment", Appointment).Methods("POST")
 
-	http.ListenAndServe(":9061", router)
+	http.ListenAndServe(":9065", router)
 }
 
 // func dbconnector(w http.ResponseWriter, req *http.Request) {
 // 	AppCode.ConnectToDB()
 // }
 
+func checkIfAmUp(w http.ResponseWriter, req *http.Request) {
+	fmt.Printf("i am up and running.")
+	AppCode.CheckOfficeAlreadyExistNew()
+}
+
 // CreateVisitor method to create new Visitor
 func CreateVisitor(w http.ResponseWriter, req *http.Request) {
+
+	getconne := AppCode.CheckDatabaseConnection()
+	fmt.Printf(getconne)
+
 	var visitorRequestBody messageentities.VisitorsRequest
 	json.NewDecoder(req.Body).Decode(&visitorRequestBody)
 

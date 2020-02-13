@@ -1,7 +1,7 @@
 package Controller
 
 import (
-	"../messageentities"
+	"github.com/Adebusy/VisitorsManager/messageentities"
 )
 
 //CreateVisitor call to create a visitor

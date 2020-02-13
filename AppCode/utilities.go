@@ -1,9 +1,10 @@
 package AppCode
 
 import (
+	"os"
 	"regexp"
-"os"
-	"../messageentities"
+
+	"github.com/Adebusy/VisitorsManager/messageentities"
 )
 
 //ValidateEmail used to validate email address
@@ -12,13 +13,34 @@ func ValidateEmail(email string) bool {
 	return re.MatchString(email)
 }
 
-func getVariables(key string) string{
+func getVariables(key string) string {
 	os.Setenv(key, "")
 	os.Setenv(key, "tylent")
 	os.Setenv(key, "VisitorDB")
 	os.Setenv(key, "10.0.41.101")
-	return  os.Getenv(key)
+
+	os.Setenv(key, "mysql")
+	os.Setenv(key, "root")
+	os.Setenv(key, "password")
+
+	os.Setenv(key, "VisitorDB")
+	return os.Getenv(key)
 }
+
+//DbDriver Database driver
+const DbDriver = "mysql"
+
+//User database user
+const User = "root"
+
+//Password password to db
+const Password = "password"
+
+//DbName database name
+const DbName = "VisitorDB"
+
+//DatabaseConnectionString connection string to database
+const DatabaseConnectionString = "root:root@tcp(http://localhost:8443)/VisitorDB?charset=utf8"
 
 //ValidateOfficeRequest used to validate office request
 func ValidateOfficeRequest(officeRequest messageentities.CreateOffice) messageentities.ResponseManager {

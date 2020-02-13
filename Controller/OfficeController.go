@@ -1,8 +1,8 @@
 package Controller
 
 import (
-	"../AppCode"
-	"../messageentities"
+	"github.com/Adebusy/VisitorsManager/AppCode"
+	"github.com/Adebusy/VisitorsManager/messageentities"
 )
 
 //CreateOffice creates new office

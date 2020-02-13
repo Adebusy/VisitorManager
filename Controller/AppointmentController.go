@@ -1,9 +1,10 @@
 package Controller
 
 import (
-	"../AppCode"
-	"../messageentities"
 	"strconv"
+
+	"github.com/Adebusy/VisitorsManager/AppCode"
+	"github.com/Adebusy/VisitorsManager/messageentities"
 )
 
 //BookAppintment call to book appointment

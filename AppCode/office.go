@@ -3,7 +3,7 @@ package AppCode
 import (
 	"strconv"
 
-	"../messageentities"
+	"github.com/Adebusy/VisitorsManager/messageentities"
 )
 
 //CreateNewOffice creates new office

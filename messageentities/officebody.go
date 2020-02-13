@@ -23,3 +23,11 @@ type OfficeDetails struct {
 	OfficeID          int32     `json:"OfficeID,omitempty"`
 	DateCreated       time.Time `json:"DateCreated,omitempty"`
 }
+
+//Department object
+type Department struct {
+	Id                int    `json:"Id,omitempty"`
+	Name              string `json:"Name,omitempty"`
+	Status            string `json:"Status,omitempty"`
+	DateStatusChanged string `json:"DateStatusChanged,omitempty"`
+}
