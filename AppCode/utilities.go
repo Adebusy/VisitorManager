@@ -1,6 +1,10 @@
 package AppCode
 
 import (
+	"context"
+	"database/sql"
+	"fmt"
+	"log"
 	"os"
 	"regexp"
 
@@ -14,33 +18,25 @@ func ValidateEmail(email string) bool {
 }
 
 func getVariables(key string) string {
-	os.Setenv(key, "")
-	os.Setenv(key, "tylent")
-	os.Setenv(key, "VisitorDB")
-	os.Setenv(key, "10.0.41.101")
-
-	os.Setenv(key, "mysql")
-	os.Setenv(key, "root")
-	os.Setenv(key, "password")
-
+	os.Setenv("password", "tylent")
+	os.Setenv("dbname", "VisitorDB")
+	os.Setenv("server", "10.0.41.101")
+	os.Setenv("databaseSchema", "mysql")
+	os.Setenv("root", "root")
 	os.Setenv(key, "VisitorDB")
 	return os.Getenv(key)
 }
 
-//DbDriver Database driver
-const DbDriver = "mysql"
-
-//User database user
-const User = "root"
-
-//Password password to db
-const Password = "password"
-
-//DbName database name
-const DbName = "VisitorDB"
+var db *sql.DB
+var err error
+var server = "sterlingazuredb.database.windows.net"
+var port = 1433
+var user = "dbuser"
+var password = "Sterling123"
+var database = "aanswebdb"
 
 //DatabaseConnectionString connection string to database
-const DatabaseConnectionString = "root:root@tcp(http://localhost:8443)/VisitorDB?charset=utf8"
+var DatabaseConnectionString = "root:Adebusy100@localhost:3306/VisitorDB"
 
 //ValidateOfficeRequest used to validate office request
 func ValidateOfficeRequest(officeRequest messageentities.CreateOffice) messageentities.ResponseManager {
@@ -75,4 +71,31 @@ func ValidateOfficeRequest(officeRequest messageentities.CreateOffice) messageen
 		resp.ResponseCode = "01"
 	}
 	return resp
+}
+
+//InitDBConnection connection
+func InitDBConnection() {
+
+	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
+		server, user, password, port, database)
+	db, err = sql.Open("sqlserver", connString)
+	if err != nil {
+		log.Fatal("Error creating connection pool: ", err.Error())
+	} else {
+		fmt.Println("no eerror")
+	}
+	ctx := context.Background()
+	err = db.PingContext(ctx)
+	if err != nil {
+		log.Fatal(err.Error())
+	} else {
+		fmt.Println("no eerror 2")
+	}
+}
+
+//Checkerr checking error
+func Checkerr(err error) {
+	if err != nil {
+		panic(err.Error)
+	}
 }
