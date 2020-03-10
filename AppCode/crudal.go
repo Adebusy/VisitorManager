@@ -1,77 +1,62 @@
 package AppCode
 
 import (
+	"database/sql"
+	"fmt"
+	"log"
+
 	"github.com/Adebusy/VisitorsManager/messageentities"
 )
 
-//Testselect resting conn
-// func Testselect(db *sql.DB) {
-// 	fmt.Println("\n==> testselect")
-// 	results, errs := db.Query(`select Id, Name from Department`)
-
-// 	if errs != nil {
-// 		fmt.Printf("new error message " + errs.Error())
-// 	}
-// 	Checkerr(errs)
-// 	for results.Next() {
-// 		var dep messageentities.Department
-// 		errs = results.Scan(&dep.Id, &dep.Name)
-// 		Checkerr(errs)
-// 		fmt.Printf("%d\t%s \n", dep.Id, dep.Name)
-// 	}
-// }
-
-//EnvVariable for db
-// func EnvVariable(key string) string {
-// 	os.Setenv("databaseusername", "VisitorDB")
-// 	return os.Getenv(key)
-// }
-
-//Checkerr for msg
-
-//CreateOffice call to create office
-// func CreateOffice(officeRequest messageentities.CreateOffice) int32 {
+//SaveAppointmentRequest call to create office
+// func SaveAppointmentRequest(appointment messageentities.BookAppointment) int32 {
 // 	var resp int32 = 0
-// 	db, err := gorm.Open("mysql", "root:Adebusy100@tcp(localhost:3306)/visitorSchema?tls=skip-verify&autocommit=true") //root:""
-// 	//db, err := gorm.Open("mysql", "root@/VisitorDB?charset=utf8&parseTime=True&loc=Local") //root:""
-
+// 	appnt := tbl_BookAppointments{department_id: appointment.DepartmentID, proposed_date: appointment.ProposedDate, proposed_duration: appointment.ProposedDuration, purpose: appointment.Purpose, staff_id: appointment.StaffID, unit_id: appointment.UnitId, visitor_email: appointment.VisitorEmail}
+// 	var connectionstring = fmt.Sprintf("server=%s;user id=%s;password=%s;port=%s;database=%s;", GoDotEnvVariable("Server"), GoDotEnvVariable("user"), GoDotEnvVariable("Password"), GoDotEnvVariable("Port"), GoDotEnvVariable("Database"))
+// 	fmt.Printf("got sss here 1 %s and %d, and %d", appointment.VisitorEmail, appnt.department_id, appnt.department_id)
+// 	fmt.Println(connectionstring)
+// 	fmt.Printf("got here new ")
+// 	db, err := gorm.Open(GoDotEnvVariable("DatabaseServer"), connectionstring)
 // 	defer db.Close()
 // 	if err == nil {
 // 		resp = 1
 // 	}
-// 	newinse := db.Debug().Save(officeRequest)
+// 	//listofuser := make(map[string]int)
 
-// 	if newinse.Error == nil {
-// 		resp = 1
-// 	}
+// 	db.NewRecord(appnt)
+// 	fmt.Println(appnt)
+// 	db.Table("tbl_BookAppointments").Create(&appnt)
 
-// 	doinsert := db.Create(officeRequest)
-
-// 	if doinsert.Error == nil {
-// 		resp = 1
-// 	}
+// 	db.NewRecord(appnt)
 // 	return resp
 // }
 
-//SaveAppointmentRequest call to create office
-func SaveAppointmentRequest(appointment messageentities.BookAppointment) int32 {
-	var resp int32 = 0
-	// // 	//db, err := gorm.Open("mysql", "root:Adebusy100@/visitorSchema?charset=utf8&parseTime=True&loc=Local")
-	// // 	//defer db.Close()
-	// // 	//if err == nil {
-	// // 	//resp = 1
-	// // 	//}
-
-	// // 	newinse := db.Debug().Save(appointment)
-
-	// // 	if newinse.Error == nil {
-	// // 		resp = 1
-	// // 	}
-
-	// // 	doinsert := db.Create(appointment)
-
-	// // 	if doinsert.Error == nil {
-	// // 		resp = 1
-	// // 	}
+//SaveAppointmentRequest save using ado.net
+func SaveAppointmentRequest(appointment messageentities.BookAppointment, db *sql.DB) bool {
+	var resp bool = false
+	queryt := fmt.Sprintf("insert into tbl_BookAppointments(VisitorEmail,DepartmentID,UnitId,StaffID,ProposedDate,ProposedDuration,Purpose) values('%s','%d','%d','%d','%s','%s','%s')", appointment.VisitorEmail, appointment.DepartmentID, appointment.UnitId, appointment.StaffID, appointment.ProposedDate, appointment.ProposedDuration, appointment.Purpose)
+	fmt.Println(queryt)
+	docprepare, err := db.Prepare(queryt)
+	if err != nil {
+		log.Panic(err.Error())
+	}
+	_, errs := docprepare.Exec()
+	if errs != nil {
+		log.Panic(errs.Error())
+		resp = false
+	} else {
+		resp = true
+	}
 	return resp
+}
+
+//tbl_BookAppointments for requesting visit
+type tbl_BookAppointments struct {
+	visitor_email     string `json:"VisitorEmail" gorm:"VisitorEmail"`
+	department_id     int    `json:"DepartmentID" gorm:"DepartmentID"`
+	unit_id           int    `json:"UnitId" gorm:"UnitId"`
+	staff_id          int    `json:"StaffID" gorm:"StaffID"`
+	proposed_date     string `json:"ProposedDate"`
+	proposed_duration string `json:"ProposedDuration" gorm:"ProposedDuration"`
+	purpose           string `json:"Purpose" gorm:"Purpose"`
 }

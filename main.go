@@ -14,6 +14,7 @@ import (
 	"github.com/Adebusy/VisitorsManager/messageentities"
 	"github.com/gorilla/mux"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/joho/godotenv"
 
 	_ "github.com/denisenkom/go-mssqldb"
 	_ "github.com/go-sql-driver/mysql"
@@ -22,18 +23,11 @@ import (
 var db *sql.DB
 var err error
 
-var server = "sterlingazuredb.database.windows.net"
-var port = 1433
-var user = "dbuser"
-var password = "Sterling123"
-var database = "aanswebdb"
-
 func init() {
-	//vairRec := godotenv.Load(`.env`)
-	//getusername := goDotEnvVariable("dsad")
-	//AppCode.InitDBConnection()
-	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
-		server, user, password, port, database)
+
+	godotenv.Load()
+	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%s;database=%s;",
+		AppCode.GoDotEnvVariable("Server"), AppCode.GoDotEnvVariable("user"), AppCode.GoDotEnvVariable("Password"), AppCode.GoDotEnvVariable("Port"), AppCode.GoDotEnvVariable("Database"))
 	db, err = sql.Open("sqlserver", connString)
 	if err != nil {
 		log.Fatal("Error creating connection pool: ", err.Error())
@@ -47,17 +41,15 @@ func init() {
 	} else {
 		fmt.Println("no eerror 2")
 	}
-	//os.Exit(1)
 }
 
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", checkIfAmUp).Methods("GET")
-	router.HandleFunc("/CreateVisitor", CreateVisitor).Methods("POST")
-	router.HandleFunc("/GetVisitorByEmail", GetVisitorByEmail).Methods("GET")
-	router.HandleFunc("/CreateOffice", CreateOffice).Methods("POST")
+	router.HandleFunc("/CreateVisitor", CreateVisitor).Methods("POST")         //done b=kb 1024
+	router.HandleFunc("/GetVisitorByEmail", GetVisitorByEmail).Methods("POST") //done
+	router.HandleFunc("/CreateOffice", CreateOffice).Methods("POST")           //done
 	router.HandleFunc("/BookAppointment", Appointment).Methods("POST")
-
 	http.ListenAndServe(":8081", router)
 }
 
@@ -67,36 +59,38 @@ func checkIfAmUp(w http.ResponseWriter, req *http.Request) {
 
 // CreateVisitor method to create new Visitor
 func CreateVisitor(w http.ResponseWriter, req *http.Request) {
-
-	//dbConn := AppCode.CheckDatabaseConnection()
-	//fmt.Println(dbConn)
-
 	var visitorRequestBody messageentities.VisitorsRequest
 	json.NewDecoder(req.Body).Decode(&visitorRequestBody)
+	fmt.Sprintln(visitorRequestBody)
+	fmt.Printf("my email address %s ", visitorRequestBody.City)
 
-	CreateVisitorsresponse := Controller.CreateVisitor(visitorRequestBody)
+	fmt.Printf(" my email addressss : %s", visitorRequestBody.Company)
+	CreateVisitorsresponse := Controller.CreateVisitor(visitorRequestBody, db)
 	_ = CreateVisitorsresponse.ResponseCode
 	json.NewEncoder(w).Encode(CreateVisitorsresponse)
 }
 
 //GetVisitorByEmail used to get visitors details by email addgo run go ress
 func GetVisitorByEmail(w http.ResponseWriter, req *http.Request) {
-	var visitorEmail string
+	var visitorEmail messageentities.GetVisitorsByEmail
 	var resp messageentities.ResponseManager
-	_ = json.NewDecoder(req.Body).Decode(&visitorEmail)
-	if visitorEmail == "" {
+	json.NewDecoder(req.Body).Decode(&visitorEmail)
+	if visitorEmail.VisitorEmail == "" {
 		resp.ResponseDescription = "Email is required"
 		resp.ResponseCode = "01"
 		json.NewEncoder(w).Encode(resp)
+		return
 	}
-	if !AppCode.ValidateEmail(visitorEmail) {
+
+	fmt.Println(visitorEmail.VisitorEmail)
+	if AppCode.ValidateEmail(visitorEmail.VisitorEmail) == false {
 		resp.ResponseDescription = "Invalid Email is supplied"
 		resp.ResponseCode = "01"
 		json.NewEncoder(w).Encode(resp)
+		return
 	}
 	//func GetVisitorByEmail(VisitorsEmail string) messageentities.VisitorsDetails {
-	_ = Controller.GetVisitorByEmail(visitorEmail)
-
+	json.NewEncoder(w).Encode(Controller.GetVisitorByEmail(visitorEmail, db))
 }
 
 //CreateOffice create office for visitor
@@ -109,9 +103,11 @@ func CreateOffice(w http.ResponseWriter, req *http.Request) {
 
 //Appointment with staff
 func Appointment(w http.ResponseWriter, req *http.Request) {
-	var officerequest messageentities.BookAppointment
-	json.NewDecoder(req.Body).Decode(&officerequest)
+	var officereq messageentities.BookAppointment
+	json.NewDecoder(req.Body).Decode(&officereq)
+
+	fmt.Printf("first contact %d", officereq.DepartmentID)
 	//validate request body
-	responseVal := Controller.BookAppintment(officerequest)
+	responseVal := Controller.BookAppintment(officereq, db)
 	json.NewEncoder(w).Encode(responseVal)
 }

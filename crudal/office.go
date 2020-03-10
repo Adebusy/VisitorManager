@@ -34,7 +34,7 @@ func CheckIfOfficeAlreadyExist(officeRequest messageentities.CreateOffice, db *s
 			response = false
 		}
 	}
-	defer db.Close()
+	//defer db.Close()
 	return response
 }
 

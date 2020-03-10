@@ -1,21 +1,25 @@
 package AppCode
 
-import "github.com/Adebusy/VisitorsManager/messageentities"
+import (
+	"database/sql"
+
+	"github.com/Adebusy/VisitorsManager/messageentities"
+)
 
 //"../messageentities"
 
 //SubmitAppointmentRequest saves request
-func SubmitAppointmentRequest(resquest messageentities.BookAppointment) messageentities.ResponseManager {
+func SubmitAppointmentRequest(resquest messageentities.BookAppointment, db *sql.DB) messageentities.ResponseManager {
 	var resp messageentities.ResponseManager
 
-	resp = CheckIfStaffExist(resquest)
+	// resp = CheckIfStaffExist(resquest)
 
-	if resp.ResponseCode != "00" {
-		return resp
-	}
+	// if resp.ResponseCode != "00" {
+	// 	return resp
+	// }
 
-	doinsert := SaveAppointmentRequest(resquest)
-	if doinsert > 0 {
+	doinsert := SaveAppointmentRequest(resquest, db)
+	if doinsert == true {
 		resp.ResponseDescription = "Request submitted successfully."
 		resp.ResponseCode = "00"
 	} else {

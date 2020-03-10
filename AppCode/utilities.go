@@ -9,6 +9,7 @@ import (
 	"regexp"
 
 	"github.com/Adebusy/VisitorsManager/messageentities"
+	"github.com/joho/godotenv"
 )
 
 //ValidateEmail used to validate email address
@@ -24,6 +25,15 @@ func getVariables(key string) string {
 	os.Setenv("databaseSchema", "mysql")
 	os.Setenv("root", "root")
 	os.Setenv(key, "VisitorDB")
+	return os.Getenv(key)
+}
+
+//GoDotEnvVariable load env file
+func GoDotEnvVariable(key string) string {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 	return os.Getenv(key)
 }
 

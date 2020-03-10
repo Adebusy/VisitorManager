@@ -4,7 +4,7 @@ package messageentities
 type BookAppointment struct {
 	VisitorEmail     string `json:"VisitorEmail,omitempty"`
 	DepartmentID     int    `json:"DepartmentID,omitempty"`
-	UnitID           int    `json:"UnitID,omitempty"`
+	UnitId           int    `json:"UnitId,omitempty"`
 	StaffID          int    `json:"StaffID,omitempty"`
 	ProposedDate     string `json:"ProposedDate,omitempty"`
 	ProposedDuration string `json:"ProposedDuration,omitempty"`

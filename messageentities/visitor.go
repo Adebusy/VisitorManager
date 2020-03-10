@@ -10,3 +10,7 @@ type VisitorsRequest struct {
 	State        string `json:"State,omitempty"`
 	EmailAddress string `json:"EmailAddress,omitempty"`
 }
+
+type GetVisitorsByEmail struct {
+	VisitorEmail string `json: "VisitorEmail,omitempty"`
+}
