@@ -34,7 +34,7 @@ import (
 //SaveAppointmentRequest save using ado.net
 func SaveAppointmentRequest(appointment messageentities.BookAppointment, db *sql.DB) bool {
 	var resp bool = false
-	queryt := fmt.Sprintf("insert into tbl_BookAppointments(VisitorEmail,DepartmentID,UnitId,StaffID,ProposedDate,ProposedDuration,Purpose) values('%s','%d','%d','%d','%s','%s','%s')", appointment.VisitorEmail, appointment.DepartmentID, appointment.UnitId, appointment.StaffID, appointment.ProposedDate, appointment.ProposedDuration, appointment.Purpose)
+	queryt := fmt.Sprintf("insert into tbl_BookAppointments([VisitorEmail],[ProposedDate],[ProposedDuration],[Purpose],[StaffEmail],[ScheduleType],[AppointmentTime],[Location],[AppointmentType],[Floor],[MeetingRoom]) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')", appointment.VisitorEmail, appointment.ProposedDate, appointment.ProposedDuration, appointment.Purpose, appointment.StaffEmail, appointment.ScheduleType, appointment.AppointmentTime, appointment.Location, appointment.AppointmentType, appointment.Floor, appointment.MeetingRoom)
 	fmt.Println(queryt)
 	docprepare, err := db.Prepare(queryt)
 	if err != nil {
@@ -48,15 +48,4 @@ func SaveAppointmentRequest(appointment messageentities.BookAppointment, db *sql
 		resp = true
 	}
 	return resp
-}
-
-//tbl_BookAppointments for requesting visit
-type tbl_BookAppointments struct {
-	visitor_email     string `json:"VisitorEmail" gorm:"VisitorEmail"`
-	department_id     int    `json:"DepartmentID" gorm:"DepartmentID"`
-	unit_id           int    `json:"UnitId" gorm:"UnitId"`
-	staff_id          int    `json:"StaffID" gorm:"StaffID"`
-	proposed_date     string `json:"ProposedDate"`
-	proposed_duration string `json:"ProposedDuration" gorm:"ProposedDuration"`
-	purpose           string `json:"Purpose" gorm:"Purpose"`
 }

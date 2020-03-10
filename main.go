@@ -45,11 +45,11 @@ func init() {
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/", checkIfAmUp).Methods("GET")
+	//router.HandleFunc("/", checkIfAmUp).Methods("GET")
 	router.HandleFunc("/CreateVisitor", CreateVisitor).Methods("POST")         //done b=kb 1024
 	router.HandleFunc("/GetVisitorByEmail", GetVisitorByEmail).Methods("POST") //done
 	router.HandleFunc("/CreateOffice", CreateOffice).Methods("POST")           //done
-	router.HandleFunc("/BookAppointment", Appointment).Methods("POST")
+	router.HandleFunc("/BookAppointment", Appointment).Methods("POST")         //done
 	http.ListenAndServe(":8081", router)
 }
 
@@ -105,8 +105,6 @@ func CreateOffice(w http.ResponseWriter, req *http.Request) {
 func Appointment(w http.ResponseWriter, req *http.Request) {
 	var officereq messageentities.BookAppointment
 	json.NewDecoder(req.Body).Decode(&officereq)
-
-	fmt.Printf("first contact %d", officereq.DepartmentID)
 	//validate request body
 	responseVal := Controller.BookAppintment(officereq, db)
 	json.NewEncoder(w).Encode(responseVal)

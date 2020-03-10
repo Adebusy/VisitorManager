@@ -11,23 +11,29 @@ import (
 //BookAppintment call to book appointment
 func BookAppintment(appointmentrequest messageentities.BookAppointment, db *sql.DB) messageentities.ResponseManager {
 	var respMsg messageentities.ResponseManager
-	if appointmentrequest.StaffID == 0 {
-		respMsg.ResponseDescription = "Staff does not exist"
-		respMsg.ResponseCode = "01"
-	}
-	fmt.Printf("email address %s", appointmentrequest.VisitorEmail)
-	// if !AppCode.ValidateEmail(strconv.Itoa(request.StaffID)) {
-	// 	respMsg.ResponseDescription = "Staff Email does not exist"
-	// 	respMsg.ResponseCode = "01"
-	// }
-	// var getVisitorOBJ messageentities.GetVisitorsByEmail
-	// getVisitorOBJ.VisitorEmail = request.VisitorEmail
-	// respMsgs := GetVisitorByEmail(getVisitorOBJ, db)
 
-	// if respMsgs.FullName == "" {
-	// 	respMsg.ResponseDescription = "Visitor does not exist."
-	// 	respMsg.ResponseCode = "01"
-	// }
+	fmt.Printf("email address %s", appointmentrequest.VisitorEmail)
+	if !AppCode.ValidateEmail(appointmentrequest.VisitorEmail) {
+		respMsg.ResponseDescription = "Visitors Email is not valid"
+		respMsg.ResponseCode = "01"
+		return respMsg
+	}
+
+	if !AppCode.ValidateEmail(appointmentrequest.StaffEmail) {
+		respMsg.ResponseDescription = "Staff Email is not valid"
+		respMsg.ResponseCode = "01"
+		return respMsg
+	}
+
+	var getVisitorOBJ messageentities.GetVisitorsByEmail
+	getVisitorOBJ.VisitorEmail = appointmentrequest.VisitorEmail
+	respMsgs := GetVisitorByEmail(getVisitorOBJ, db)
+
+	if respMsgs.FullName == "" {
+		respMsg.ResponseDescription = "Visitor does not exist."
+		respMsg.ResponseCode = "01"
+		return respMsg
+	}
 
 	doinsert := AppCode.SaveAppointmentRequest(appointmentrequest, db)
 	if doinsert == true {
