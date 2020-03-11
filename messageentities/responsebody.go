@@ -15,6 +15,4 @@ type VisitorsDetails struct {
 	City         string `json:"City,omitempty"`
 	State        string `json:"State,omitempty"`
 	EmailAddress string `json:"EmailAddress,omitempty"`
-	// RegDate      string `json:"RegDate,omitempty"`
-	// Status       string `json:"Status,omitempty"`
 }
