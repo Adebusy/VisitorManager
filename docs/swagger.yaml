@@ -1,0 +1,227 @@
+basePath: /api/v1
+definitions:
+  httputil.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  messageentities.BookAppointment:
+    properties:
+      AppointmentTime:
+        type: string
+      AppointmentType:
+        type: string
+      Floor:
+        type: string
+      Location:
+        type: string
+      MeetingRoom:
+        type: string
+      ProposedDate:
+        type: string
+      ProposedDuration:
+        type: string
+      Purpose:
+        type: string
+      ScheduleType:
+        description: one-off, daily
+        type: string
+      StaffEmail:
+        type: string
+      VisitorEmail:
+        type: string
+    type: object
+  messageentities.CreateOffice:
+    properties:
+      Floor:
+        type: string
+      OfficeAddress:
+        type: string
+      OfficeDepartment:
+        type: string
+      OfficeName:
+        type: string
+      OfficePhoneNumber:
+        type: string
+      OfficeUnit:
+        type: string
+    type: object
+  messageentities.GetVisitorsByEmail:
+    properties:
+      VisitorEmail:
+        type: string
+    type: object
+  messageentities.ResponseManager:
+    properties:
+      ResponseCode:
+        type: string
+      ResponseDescription:
+        type: string
+    type: object
+  messageentities.VisitorsDetails:
+    properties:
+      City:
+        type: string
+      Company:
+        type: string
+      EmailAddress:
+        type: string
+      FullName:
+        type: string
+      HomeAddress:
+        type: string
+      PhoneNumber:
+        type: string
+      State:
+        type: string
+    type: object
+  messageentities.VisitorsRequest:
+    properties:
+      City:
+        type: string
+      Company:
+        type: string
+      EmailAddress:
+        type: string
+      FullName:
+        type: string
+      HomeAddress:
+        type: string
+      PhoneNumber:
+        type: string
+      State:
+        type: string
+    type: object
+info:
+  contact:
+    email: martin7.heinz@gmail.com
+    name: API Support
+  description: Swagger API for Golang Project Blueprint.
+  license:
+    name: MIT
+    url: https://github.com/MartinHeinz/go-project-blueprint/blob/master/LICENSE
+  termsOfService: http://swagger.io/terms/
+  title: Blueprint Swagger API
+  version: "1.0"
+paths:
+  /api/v1/appointment/BookAppintment:
+    post:
+      parameters:
+      - description: Appointment request
+        in: body
+        name: guest
+        required: true
+        schema:
+          $ref: '#/definitions/messageentities.BookAppointment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/messageentities.ResponseManager'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: creates new appointment request
+  /api/v1/guest/GetVisitorByEmail/{emailaddress}:
+    get:
+      parameters:
+      - description: get guest details by email request
+        in: body
+        name: guest
+        required: true
+        schema:
+          $ref: '#/definitions/messageentities.GetVisitorsByEmail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/messageentities.VisitorsDetails'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: fetch visitor by email address
+  /api/v1/office/CreateOffice:
+    post:
+      parameters:
+      - description: office creation request
+        in: body
+        name: office
+        required: true
+        schema:
+          $ref: '#/definitions/messageentities.CreateOffice'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/messageentities.ResponseManager'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: create new office
+  /guest/CreateVisitor:
+    post:
+      parameters:
+      - description: Create new visitor
+        in: body
+        name: visitor
+        required: true
+        schema:
+          $ref: '#/definitions/messageentities.VisitorsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/messageentities.ResponseManager'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: creates new student
+swagger: "2.0"

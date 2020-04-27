@@ -11,6 +11,7 @@ type VisitorsRequest struct {
 	EmailAddress string `json:"EmailAddress,omitempty"`
 }
 
+//GetVisitorsByEmail used to get visitors details
 type GetVisitorsByEmail struct {
-	VisitorEmail string `json: "VisitorEmail,omitempty"`
+	VisitorEmail string `json:"VisitorEmail,omitempty"`
 }

@@ -39,7 +39,8 @@ func CheckIfOfficeAlreadyExist(officeRequest messageentities.CreateOffice, db *s
 }
 
 var ctx context.Context
-var err error
+
+//var err error
 
 //CreateOfficeRequest to check
 func CreateOfficeRequest(officeRequest messageentities.CreateOffice, db *sql.DB) bool {
