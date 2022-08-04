@@ -53,7 +53,7 @@ func main() {
 	r.POST("/CreateOffice", cntr.CreateOffice)
 	r.POST("/BookAppointment", cntr.BookAppintment)
 	r.Run(":8060")
-
+	// golang new request squash to test
 	//router.HandleFunc("/", checkIfAmUp).Methods("GET")
 	// router.HandleFunc("/CreateVisitor", CreateVisitor).Methods("POST")         //done b=kb 1024
 	// router.HandleFunc("/GetVisitorByEmail", GetVisitorByEmail).Methods("POST") //done
