@@ -64,4 +64,5 @@ func main() {
 
 func checkIfAmUp(w http.ResponseWriter, req *http.Request) {
 	fmt.Printf("i am up and running.")
+	//go to test squash
 }
