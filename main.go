@@ -62,6 +62,7 @@ func main() {
 	// http.ListenAndServe(":8081", router)
 }
 
+//dadsadadsa
 func checkIfAmUp(w http.ResponseWriter, req *http.Request) {
 	fmt.Printf("i am up and running.")
 	//go to test squash
