@@ -42,4 +42,6 @@ func WithUserAgent(base http.Handler) http.Handler {
 		setupResponse(&w, r)
 		base.ServeHTTP(w, r)
 	})
+	//test error files
+	//squach sda
 }
